@@ -22,102 +22,114 @@ STEP 6: Use zscore of to remove outliers
 
 # Coding
 
-## Step 1: Import Required Libraries
+### Step 1: Import Required Libraries
 import pandas as pd
 import numpy as np
 from scipy import stats
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-## Step 2: Read the Dataset
+### Step 2: Read the Dataset
 df2 = pd.read_csv('Data_set.csv')
 df2.head()
 
-## Step 3: Dataset Information
+### Step 3: Dataset Information
 df2.info()
 df2.describe()
 
-## Step 4: Handling Missing Values
-## Check Null Values
+### Step 4: Handling Missing Values
+### Check Null Values
 df2.isnull()
 df2.isnull().sum()
 
-## Fill Missing Values with 0
+### Fill Missing Values with 0
 df2_fill_0 = df2.fillna(0)
 df2_fill_0
 
-## Forward Fill
+### Forward Fill
 df2_ffill = df2.ffill()
 df2_ffill
 
-## Backward Fill
+### Backward Fill
 df2_bfill = df2.bfill()
 df2_bfill
 
-## Fill with Mean (Numerical Column Example)
+### Fill with Mean (Numerical Column Example)
 df2['watchers'] = df2['watchers'].fillna(df2['watchers'].mean())
 df2
 
-## Drop Missing Values
+### Drop Missing Values
 df2_dropna = df2.dropna()
 df2_dropna
 
-## Step 5: Save Cleaned Data
+### Step 5: Save Cleaned Data
 df2_dropna.to_csv('clean_data_2.csv', index=False)
 
-## OUTLIER DETECTION
-## Step 6: IQR Method (Using Iris Dataset)
+### OUTLIER DETECTION
+### Step 6: IQR Method (Using Iris Dataset)
 ir = pd.read_csv('Data_set.csv')
 ir.head()
 ir.info()
 ir.describe()  
 
-## Boxplot for Outlier Detection
+### Boxplot for Outlier Detection
 sns.boxplot(x=ir['watchers'])
 plt.show()
 
-## Calculate IQR
+### Calculate IQR
 Q1 = ir['watchers'].quantile(0.25)
 Q3 = ir['watchers'].quantile(0.75)
 IQR = Q3 - Q1
 print("IQR:", IQR)
 
-## Detect Outliers
+### Detect Outliers
 outliers_iqr = ir[
     (ir['watchers'] < (Q1 - 1.5 * IQR)) |
     (ir['watchers'] > (Q3 + 1.5 * IQR))
 ]
 outliers_iqr
 
-## Remove Outliers
+### Remove Outliers
 ir_cleaned = ir[
     ~((ir['watchers'] < (Q1 - 1.5 * IQR)) |
       (ir['watchers'] > (Q3 + 1.5 * IQR)))
 ]
 ir_cleaned
 
-## Step 7: Z-Score Method
+### Step 7: Z-Score Method
 data = [1,12,15,18,21,24,27,30,33,36,39,42,45,48,51,
         54,57,60,63,66,69,72,75,78,81,84,87,90,93]
 df2_z = pd.DataFrame(data, columns=['values'])
 df2_z
 
-## Calculate Z-Scores
+### Calculate Z-Scores
 z_scores = np.abs(stats.zscore(df2_z))
 z_scores
 
-## Detect Outliers
+### Detect Outliers
 threshold = 3
 outliers_z = df2_z[z_scores > threshold]
 print("Outliers:")
 outliers_z
 
-## Remove Outliers
+### Remove Outliers
 df2_z_cleaned = df2_z[z_scores <= threshold]
 df2_z_cleaned
             
 
 # Output
+
+<img width="788" height="714" alt="Screenshot 2026-02-06 112155" src="https://github.com/user-attachments/assets/c25b916a-4eb5-4ef2-9780-ef585fed9160" />
+<img width="386" height="228" alt="Screenshot 2026-02-06 112205" src="https://github.com/user-attachments/assets/78f5fbb4-6e05-4d15-9ab4-df40117b1440" />
+<img width="1029" height="387" alt="Screenshot 2026-02-06 112221" src="https://github.com/user-attachments/assets/b4296922-722e-49fa-b797-e4279db2e032" />
+<img width="1031" height="803" alt="Screenshot 2026-02-06 112304" src="https://github.com/user-attachments/assets/cd4bd119-0d28-4f96-8bc7-866f4312844b" />
+<img width="563" height="823" alt="Screenshot 2026-02-06 112325" src="https://github.com/user-attachments/assets/899d73d9-d393-46be-9386-b21334888e17" />
+<img width="433" height="811" alt="Screenshot 2026-02-06 112342" src="https://github.com/user-attachments/assets/2b4cf545-e927-40b1-acce-12d70a270c04" />
+
+
+
+
+
 
 # Result
           Thus , the data cleaning process is completed successfully .
